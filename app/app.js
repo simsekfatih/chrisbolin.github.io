@@ -19,8 +19,3 @@ ReactDOM.render(
   <Card />,
   document.getElementById('app')
 );
-
-// Install ServiceWorker and AppCache, but if they fail that's OK
-if (process.env.NODE_ENV === 'production') {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
-}
