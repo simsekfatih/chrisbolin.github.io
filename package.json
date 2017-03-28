@@ -1,17 +1,13 @@
 {
-  "name": "react-boilerplate",
-  "version": "3.4.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "name": "chrisbolin.github.io",
+  "version": "0.0.1",
+  "description": "A website",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": "git://github.com/chrisbolin/chrisbolin.github.io.git"
   },
-  "engines": {
-    "npm": ">=3",
-    "node": ">=5"
-  },
-  "author": "Max Stoiber",
-  "license": "MIT",
+  "author": "Chris Bolin",
+  "license": "None",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
     "preanalyze": "npm run analyze:clean",
