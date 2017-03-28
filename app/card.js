@@ -1,3 +1,5 @@
+import React from 'react';
+
 let fx = {
   limitUnit(x) {
     return (x < 0) ? 0 : (
@@ -263,10 +265,7 @@ const App = React.createClass({
   },
 });
 
-ReactDOM.render(
-  <App/>,
-  document.getElementById('app')
-);
+export default App;
 
 const greeting = `
  /88
