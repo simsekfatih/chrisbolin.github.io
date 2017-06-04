@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import Inferno from 'inferno';
 
 import App from './app';
+import renderWithState from './state';
 
 const appElement = document.getElementById('app');
 
@@ -24,7 +24,7 @@ source: https://github.com/chrisbolin/chrisbolin.github.io
 `;
 
 if (appElement) {
-  ReactDOM.render(<App/>, appElement);
+  renderWithState(App, appElement);
   console.log(greeting);
 } else {
   global.App = App;

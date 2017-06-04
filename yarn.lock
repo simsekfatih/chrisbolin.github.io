@@ -351,6 +351,13 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+babel-plugin-inferno:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inferno/-/babel-plugin-inferno-3.2.0.tgz#62ae1ac223e74e0d54f29fb196e06e358250d82a"
+  dependencies:
+    babel-plugin-syntax-jsx "^6.18.0"
+    inferno-vnode-flags "3.0.0"
+
 babel-plugin-module-resolver:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-2.7.0.tgz#9c1cb2fcf2a1bdb45e91c6c985b96311123797f9"
@@ -371,7 +378,7 @@ babel-plugin-syntax-flow@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-flow/-/babel-plugin-syntax-flow-6.18.0.tgz#4c3ab20a2af26aa20cd25995c398c4eb70310c8d"
 
-babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
+babel-plugin-syntax-jsx@^6.18.0, babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
 
@@ -2006,6 +2013,29 @@ indexes-of@^1.0.1:
 indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
+
+inferno, inferno@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.3.1.tgz#376b7bcd065a1623c41904e42e0beb981e4552cd"
+  dependencies:
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-server:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno-server/-/inferno-server-3.3.1.tgz#c19f1c0ac4ba5542a26b0db06cf237e74d1d1ba1"
+  dependencies:
+    inferno "3.3.1"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-shared@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-3.1.1.tgz#70376e29a56c53f6ba1e942191fe5cb710654f73"
+
+inferno-vnode-flags@^3.0.0, inferno-vnode-flags@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.0.0.tgz#f396390f3dafae3b76eea04d04eed6cf2004473b"
 
 inflight@^1.0.4:
   version "1.0.6"

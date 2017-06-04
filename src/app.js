@@ -1,26 +1,9 @@
-import React from "react";
+import Inferno, { linkEvent } from 'inferno';
 import styleSheet from "../style.css";
-
-const fx = {
-  limitUnit(x) {
-    return (x < 0) ? 0 : (
-      (x < 1) ? x : 1
-    );
-  },
-  isMobile() {
-    return navigator.userAgent.match(
-      /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile/
-    );
-  },
-  enableMobileInteraction() {
-    const ua = navigator.userAgent;
-    return (ua.match(/Safari/) && !ua.match(/CriOS|Chrome/))
-      || ua.match(/Android/);
-  },
-};
+import { limitUnit } from './utils';
 
 const ColorBar = ({x, width, left, color}) => {
-  const height = fx.limitUnit(x) * 100;
+  const height = limitUnit(x) * 100;
   return (
     <div style={{
       width,
@@ -81,35 +64,32 @@ const CardBack = ({x}) => {
   );
 }
 
-class CardPlane extends React.Component {
-  getStyle() {
-    const x = this.props.x;
-    const rotateX = 180  * (
-      (x < 0.5) ? x : fx.limitUnit(x * 2 - 0.5)
-    );
-    const transform = `
-      rotateZ(${90 * x}deg)
-      rotateX(${rotateX}deg)
-      translate3d(${-50 * x}px, 0, 0)
-      scale(${1 + (x*x*x*x*10)})
-    `;
+const getStyle = ({x}) => {
+  const rotateX = 180  * (
+    (x < 0.5) ? x : limitUnit(x * 2 - 0.5)
+  );
+  const transform = `
+    rotateZ(${90 * x}deg)
+    rotateX(${rotateX}deg)
+    translate3d(${-50 * x}px, 0, 0)
+    scale(${1 + (x*x*x*x*10)})
+  `;
 
-    return {
-      transform,
-      WebkitTransform: transform,
-    };
-  }
-  render() {
-    const zFront = this.props.x < 0.5 ? 1 : 0;
-    const zBack = !zFront;
-    return (
-      <div style={this.getStyle()} className='card-plane'>
-        <CardFront x={this.props.x} mounted={this.props.mounted}/>
-        <CardBack x={this.props.x}/>
-      </div>
-    )
-  }
+  return {
+    transform,
+    WebkitTransform: transform,
+  };
 }
+const CardPlane = (props) => {
+  const zFront = props.x < 0.5 ? 1 : 0;
+  const zBack = !zFront;
+  return (
+    <div style={getStyle(props)} className='card-plane'>
+      <CardFront x={props.x} mounted={props.mounted}/>
+      <CardBack x={props.x}/>
+    </div>
+  )
+};
 
 const Arrow = ({x}) => {
   const grey = Math.floor(255 * (1 - x));
@@ -118,7 +98,7 @@ const Arrow = ({x}) => {
     transform,
     WebkitTransform: transform,
     color: `rgb(${grey},${grey},${grey})`,
-    opacity: fx.limitUnit(10 * (0.9 - x)),
+    opacity: limitUnit(10 * (0.9 - x)),
   };
   return (
     <div className="arrow" style={style}>&darr;</div>
@@ -145,7 +125,7 @@ const BackText = ({x}) => {
   // Text does not show until x < 0.7
   const progress = (x < 0.7) ? 0 : (x - 0.7)/0.3;
   const display = progress ? 'inherit' : 'none';
-  const shaddowOpacity = fx.limitUnit((progress - 0.5)*2);
+  const shaddowOpacity = limitUnit((progress - 0.5)*2);
   const shaddowColor = `rgba(36,15,31,${shaddowOpacity})`;
   const textShadow = `
     ${shaddowColor} 0.5vmin 0 0,
@@ -189,74 +169,35 @@ const BackText = ({x}) => {
   );
 }
 
-export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      x: 0,
-      mounted: false,
-    };
-    // longer scroll for desktop users
-    this.scrollLength = (fx.isMobile() ? 1.5 : 3);
-  }
-  handleScroll(e) {
-    const x = fx.limitUnit(window.scrollY / (
-      window.innerHeight * (this.scrollLength - 1)
-    ));
-    this.setState({x});
-    document.documentElement.style.backgroundColor = x < 0.5 ? null : "#240f1f";
-  }
-
-  handleLegacyScroll(e) {
-    // handling for non-iOS mobile devices, until they allow painting while scrolling
-    // this creates a non-interactive animation instead :/
-
-    let x = this.state.x;
-    const interval = 10; // update in ms
-    const totalTime = 1000; // ms
-
-    e.preventDefault();
-
-    // don't queue up anything in the middle of animation
-    if (x !== 1 && x !== 0) return;
-
-    // 'scroll' up when at the bottom
-    const increment = interval / totalTime * ((x === 1) ? -1 : 1);
-    const intervalId = setInterval(() => {
-      x = fx.limitUnit(x + increment);
-      this.setState({x});
-      if (x === 0 || x === 1) {
-        clearInterval(intervalId);
-      }
-    }, interval);
-
-  }
-  componentDidMount() {
-    this.container = document.getElementsByClassName('main');
-    // backup for non-safari mobile browsers
-    const handler = (fx.isMobile() && !fx.enableMobileInteraction()) ?
-      this.handleLegacyScroll.bind(this) : this.handleScroll.bind(this);
-
-    window.addEventListener('scroll', handler);
-    window.addEventListener('resize', handler);
-    window.addEventListener('touchmove', handler);
-
-    this.setState({ mounted: true });
-  }
-  render() {
-    const x = (this.state.x); // extra padding for slight scroll ups
-    const planeX = fx.limitUnit(x);
-    const appStyle = {
-      height: this.state.mounted ? `${this.scrollLength * 100}vh` : 'auto'
-    };
-    return (
-      <div className='app' style={appStyle}>
-        <div className='container'>
-          <CardPlane x={planeX} mounted={this.state.mounted}/>
-          <Arrow x={x}/>
-          <BackText x={x}/>
-        </div>
+const App = function({ state, setState }) {
+  const x = (state.x); // extra padding for slight scroll ups
+  const planeX = limitUnit(x);
+  const appStyle = {
+    height: state.mounted ? `${state.scrollLength * 100}vh` : 'auto'
+  };
+  return (
+    <div className='app' style={appStyle}>
+      <div className='container'>
+        <CardPlane x={planeX} mounted={state.mounted}/>
+        <Arrow x={x}/>
+        <BackText x={x}/>
       </div>
-    );
-  }
+    </div>
+  );
+};
+
+App.componentDidMount = ({ setState }) => {
+  setState({
+    mounted: true,
+  });
+};
+
+export default function(props) {
+  return (
+    <App
+      state={props.state}
+      setState={props.setState}
+      onComponentDidMount={() => App.componentDidMount(props)}
+    />
+  );
 };
