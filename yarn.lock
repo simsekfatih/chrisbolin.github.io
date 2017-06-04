@@ -2021,6 +2021,23 @@ inferno, inferno@3.3.1:
     inferno-shared "3.1.1"
     inferno-vnode-flags "^3.0.0"
 
+inferno-component@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.3.1.tgz#ddf28ff0bf195b641d77e8e8097ba488730adca5"
+  dependencies:
+    inferno "3.3.1"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-create-element:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-3.3.1.tgz#0babdb85e4c11f259a6fd10886ffc58820330c48"
+  dependencies:
+    inferno "3.3.1"
+    inferno-component "3.3.1"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
 inferno-server:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/inferno-server/-/inferno-server-3.3.1.tgz#c19f1c0ac4ba5542a26b0db06cf237e74d1d1ba1"

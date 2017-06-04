@@ -1,13 +1,17 @@
 spoofBrowser();
 
 const fs = require('fs');
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
+const createElement = require('inferno-create-element');
+const InfernoServer = require('inferno-server');
 require('../bundle.js');
 
 const App = global.App;
-const renderedApp = ReactDOMServer.renderToString(
-  React.createElement(App)
+const state = {
+  x: 0,
+  mounted: false,
+};
+const renderedApp = InfernoServer.renderToString(
+  createElement(App, { state: state })
 );
 
 const template = fs.readFileSync('index.html', 'utf8');
